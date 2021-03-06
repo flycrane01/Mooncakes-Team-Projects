@@ -138,16 +138,17 @@ for i in tqdm(range(end), unit="frames"):
 print("(2/4) Scanning for the hardsubbed pictures...")
 
 for i in tqdm(range(start, end),unit="pics"):
-    # First of all, scan for all the frames that contain hard subs
     img = folder+str(i)+'.jpg'
     if is_hardsubbed_img(img, middle_line):
         subbed_img_index.append(i)
 
+print("(3/4) Retrieving timings...")
+
 for i in subbed_img_index:
     # If a frame is hardsubbed, the frame before it ISN'T hardsubbed, and the frame after it IS hardsubbed,
-    # then this frame marks the beginning of a sentence.
+    # then this frame marks the beginning of a dialogue.
     # If a frame is hardsubbed, the frame before it IS hardsubbed, and the frame after it ISN't hardsubbed,
-    # then this frame marks the end of a sentence.
+    # then this frame marks the end of a dialogue.
     if i == 0 and i in subbed_img_index:
         starts.append(i)
     elif 1 < i < (end-1):
@@ -157,8 +158,6 @@ for i in subbed_img_index:
             ends.append(i)
     elif i == (end-1) and i in subbed_img_index:
         ends.append(i)
-
-print("(3/4) Retrieving timings...")
 
 for i in tqdm(range(len(starts)),unit="pics"):
     content_start = transcriber(folder + str(starts[i]) + '.jpg', middle_line)
