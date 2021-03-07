@@ -124,7 +124,6 @@ starts = []
 ends = []
 filename = os.path.splitext(os.path.basename(video))[0]
 sub = open(filename+".srt","a+",encoding='utf-8')
-subbed_img_index = []
 
 print("(1/4) Extracting pictures to a temporary folder...")
 
@@ -174,6 +173,10 @@ for i in tqdm(range(len(starts)),unit="pics"):
                     break
                 else:
                     content_end = boundary
+
+# Sort the starts & ends lists in ascending order
+starts.sort()
+ends.sort()
 
 print("(4/4) Writing the subtitle file...")
 for i in tqdm(range(len(ends)),unit="events"):
